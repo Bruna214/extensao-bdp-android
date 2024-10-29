@@ -1,0 +1,25 @@
+package com.example.listaestoque;
+
+public class Produto {
+    private String nome;
+    private int quantidade;
+    private String kg;
+
+    public Produto(String nome, int quantidade, String kg) {
+        this.nome = nome;
+        this.quantidade = quantidade;
+        this.kg = kg;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public int getQuantidade() {
+        return quantidade;
+    }
+
+    public String getKg() {
+        return kg;
+    }
+}
