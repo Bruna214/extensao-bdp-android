@@ -1,0 +1,74 @@
+
+package com.example.listaestoque;
+
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity {
+
+    private ArrayList<Produto> produtos;
+    private ProdutoAdapter adapter;
+    
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        produtos = new ArrayList<>();
+        produtos.add(new Produto("Ração para gatos (saco g)", 2, "10,01kg"));
+        produtos.add(new Produto("Ração para gatos (saco p)", 1, "1kg"));
+        produtos.add(new Produto("Areia para gatos", 4, "12kg"));
+        produtos.add(new Produto("Sache para gatos (saco)", 6, "85g"));
+        produtos.add(new Produto("Sache para gatos (lata)", 2, "290g"));
+        produtos.add(new Produto("Cama para gatos", 4, "0kg"));
+        produtos.add(new Produto("Teste", 1, "1kg"));
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        adapter = new ProdutoAdapter(produtos);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mostrarDialogAdicionarProduto();
+            }
+        });
+    }
+
+    private void mostrarDialogAdicionarProduto() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Adicionar Produto");
+
+        View view = getLayoutInflater().inflate(R.layout.dialog_add_produto, null);
+        builder.setView(view);
+
+        EditText editNome = view.findViewById(R.id.editNome);
+        EditText editQuantidade = view.findViewById(R.id.editQuantidade);
+        EditText editKg = view.findViewById(R.id.editKg);
+
+        builder.setPositiveButton("Adicionar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String nome = editNome.getText().toString();
+                int quantidade = Integer.parseInt(editQuantidade.getText().toString());
+                String kg = editKg.getText().toString();
+                produtos.add(new Produto(nome, quantidade, kg));
+                adapter.notifyItemInserted(produtos.size() - 1);
+            }
+        });
+
+        builder.setNegativeButton("Cancelar", null);
+        builder.show();
+    }
+}
