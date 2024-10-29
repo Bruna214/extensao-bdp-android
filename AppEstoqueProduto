@@ -1,0 +1,49 @@
+package com.example.listaestoque;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+import java.util.ArrayList;
+
+public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.ProdutoViewHolder> {
+
+    private ArrayList<Produto> produtos;
+
+    public ProdutoAdapter(ArrayList<Produto> produtos) {
+        this.produtos = produtos;
+    }
+
+    @NonNull
+    @Override
+    public ProdutoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(android.R.layout.simple_list_item_3, parent, false);
+        return new ProdutoViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ProdutoViewHolder holder, int position) {
+        Produto produto = produtos.get(position);
+        holder.nome.setText(produto.getNome());
+        holder.quantidade.setText("Quantidade: " + produto.getQuantidade());
+        holder.kg.setText("Peso: " + produto.getKg());
+    }
+
+    @Override
+    public int getItemCount() {
+        return produtos.size();
+    }
+
+    static class ProdutoViewHolder extends RecyclerView.ViewHolder {
+        TextView nome, quantidade, kg;
+
+        public ProdutoViewHolder(@NonNull View itemView) {
+            super(itemView);
+            nome = itemView.findViewById(android.R.id.text1);
+            quantidade = itemView.findViewById(android.R.id.text2);
+            kg = itemView.findViewById(android.R.id.text3);
+        }
+    }
+}
